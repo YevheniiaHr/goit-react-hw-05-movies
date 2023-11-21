@@ -11,7 +11,7 @@ export const Container = styled.div`
 export const Header = styled.header`
   height: 50px;
   display: flex;
-
+  justify-content: space-around;
   align-items: center;
   border-bottom: 1px solid #e7e9fc;
   box-shadow: 0px 2px 1px rgba(46, 47, 66, 0.08),
@@ -27,7 +27,7 @@ export const NavItem = styled.li`
 `;
 export const NavList = styled.ul`
   display: flex;
-  gap: 20px;
+  gap: 50px;
 `;
 export const StyledLink = styled(NavLink)`
   text-decoration: none;

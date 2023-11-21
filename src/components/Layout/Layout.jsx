@@ -12,9 +12,8 @@ import {
 
 const Layout = () => {
   return (
-    <Container>
+    <>
       <Header>
-        {' '}
         <Navigation>
           <NavList>
             <NavItem>
@@ -26,8 +25,10 @@ const Layout = () => {
           </NavList>
         </Navigation>
       </Header>
-      <Outlet />
-    </Container>
+      <Container>
+        <Outlet />
+      </Container>
+    </>
   );
 };
 

@@ -7,4 +7,22 @@ export const getTrendingAll = async () => {
   return data;
 };
 
-// export const
+export const getMovieDetails = async movieId => {
+  const { data } = await axios.get(
+    `movie/${movieId}?api_key=${API_KEY}&language=en-US`
+  );
+  return data;
+};
+
+export const getCast = async movieId => {
+  const { data } = await axios.get(
+    `movie/${movieId}/credits?api_key=${API_KEY}&language=en-US`
+  );
+  return data;
+};
+export const getReviews = async movieId => {
+  const { data } = await axios.get(
+    `movie/${movieId}/reviews?api_key=${API_KEY}&language=en-US`
+  );
+  return data;
+};
