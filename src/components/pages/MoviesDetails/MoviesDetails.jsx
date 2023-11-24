@@ -1,15 +1,27 @@
 import { getMovieDetails } from 'components/api';
-import React, { useEffect, useState } from 'react';
+import React, { Suspense, useEffect, useRef, useState } from 'react';
 import { Link, Outlet, useLocation, useParams } from 'react-router-dom';
-import { Button, Container, LinkAdd, ListAdd } from './MoviesDetails.styled';
+import {
+  Button,
+  Container,
+  LinkAdd,
+  ListAdd,
+  MovieWrapper,
+  MovieTitle,
+  MovieSubtitle,
+  AddInfo,
+  GenresList,
+} from './MoviesDetails.styled';
 import Loader from 'components/Loader/Loader';
-import { List } from 'components/MoviesList/MoviesList.styled';
 
 const MoviesDetails = () => {
   const { movieId } = useParams();
   const [isLoading, setIsLoading] = useState(false);
   const [movieInfo, setMovieInfo] = useState(null);
   const location = useLocation();
+  const backLink = useRef(location);
+  console.log(location);
+  console.log(backLink);
   useEffect(() => {
     const fetchMovieDetails = async () => {
       setIsLoading(true);
@@ -35,13 +47,14 @@ const MoviesDetails = () => {
 
   return (
     <>
-      <Link to={location.state?.from ?? '/'}>
+      <Link to={backLink.current.state?.from ?? '/'}>
         <Button type="button">Go Back</Button>
       </Link>
       {isLoading && <Loader />}
       {movieInfo && (
         <Container>
           <img
+            style={{ borderRadius: 5 }}
             width={300}
             src={
               poster_path
@@ -50,34 +63,34 @@ const MoviesDetails = () => {
             }
             alt={original_title}
           />
-          <div>
-            <h1>
+          <MovieWrapper>
+            <MovieTitle>
               {original_title} ({release_date.slice(0, 4)})
-            </h1>
-            <p>User score: {popularity}</p>
-            <h2>Overview</h2>
+            </MovieTitle>
+            <p>User score: {Math.round(popularity)}</p>
+            <MovieSubtitle>Overview</MovieSubtitle>
             <p>{overview}</p>
-            <h2>Genres</h2>
-            <List>
+            <MovieSubtitle>Genres</MovieSubtitle>
+            <GenresList>
               {genres.map(genre => (
-                <li key={genre.id}>{genre.name}</li>
+                <li key={genre.id}>{genre.name},</li>
               ))}
-            </List>
-          </div>
+            </GenresList>
+            <AddInfo>Additional information</AddInfo>
+            <ListAdd>
+              <li>
+                <LinkAdd to="cast">Cast: see more</LinkAdd>
+              </li>
+              <li>
+                <LinkAdd to="reviews">Reviews: see more</LinkAdd>
+              </li>
+            </ListAdd>
+          </MovieWrapper>
         </Container>
       )}
-      <div>
-        <h3>Additional information</h3>
-        <ListAdd>
-          <li>
-            <LinkAdd to="cast">Cast</LinkAdd>
-          </li>
-          <li>
-            <LinkAdd to="reviews">Reviews</LinkAdd>
-          </li>
-        </ListAdd>
+      <Suspense fallback={<Loader />}>
         <Outlet />
-      </div>
+      </Suspense>
     </>
   );
 };

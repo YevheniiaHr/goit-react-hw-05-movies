@@ -1,9 +1,10 @@
 import React from 'react';
-import { useLocation, Link } from 'react-router-dom';
-import { List, MovieItem } from './MoviesList.styled';
+import { useLocation } from 'react-router-dom';
+import { List, MovieItem, MovieLink } from './MoviesList.styled';
 
 const MoviesList = ({ movies }) => {
   const location = useLocation();
+
   if (!movies || movies.length === 0) {
     return <p> Movies not found</p>;
   }
@@ -12,9 +13,9 @@ const MoviesList = ({ movies }) => {
     <List>
       {movies.map(({ id, original_title }) => (
         <MovieItem key={id}>
-          <Link to={`/movies/${id}`} state={{ from: location }}>
+          <MovieLink to={`/movies/${id}`} state={{ from: location }}>
             {original_title}
-          </Link>
+          </MovieLink>
         </MovieItem>
       ))}
     </List>

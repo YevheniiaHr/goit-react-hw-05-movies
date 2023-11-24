@@ -2,7 +2,7 @@ import Loader from 'components/Loader/Loader';
 import { getCast } from 'components/api';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { CastList } from './Cast.styled';
+import { CastItem, CastList } from './Cast.styled';
 
 const Cast = () => {
   const { movieId } = useParams();
@@ -32,8 +32,11 @@ const Cast = () => {
       {isLoading && <Loader />}
       <CastList>
         {actors.map(({ id, profile_path, original_name, name, character }) => (
-          <li key={id}>
+          <CastItem key={id}>
             <img
+              style={{
+                alignSelf: 'flexStart',
+              }}
               width={200}
               src={
                 profile_path
@@ -44,7 +47,7 @@ const Cast = () => {
             />
             <h2>{name}</h2>
             <p>Character: {character}</p>
-          </li>
+          </CastItem>
         ))}
       </CastList>
     </div>

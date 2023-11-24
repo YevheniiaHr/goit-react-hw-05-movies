@@ -10,6 +10,7 @@ export const Container = styled.div`
 `;
 export const Header = styled.header`
   height: 50px;
+  margin-bottom: 20px;
   display: flex;
   justify-content: space-around;
   align-items: center;
