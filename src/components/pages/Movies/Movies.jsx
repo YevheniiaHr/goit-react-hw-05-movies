@@ -4,14 +4,17 @@ import SearchBar from 'components/SearchBar/SearchBar';
 import { getByQuery } from 'components/api';
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
+
 const Movies = () => {
   const [movies, setMovies] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
+  const currentQuery = searchParams.get('query');
+  const [searchInputValue, setSearchInputValue] = useState(currentQuery || '');
 
   useEffect(() => {
-    const currentQuery = searchParams.get('query');
     if (!currentQuery) return;
+
     const fetchByQuery = async () => {
       setIsLoading(true);
       try {
@@ -25,10 +28,25 @@ const Movies = () => {
       }
     };
     fetchByQuery();
-  }, [searchParams]);
+  }, [currentQuery]);
+
+  const handleSearchInputChange = event => {
+    setSearchInputValue(event.target.value);
+  };
+
+  const handleSearchSubmit = event => {
+    event.preventDefault();
+
+    setSearchParams({ query: searchInputValue });
+  };
+
   return (
     <>
-      <SearchBar setSearchParams={setSearchParams} />
+      <SearchBar
+        value={searchInputValue}
+        onChange={handleSearchInputChange}
+        onSubmit={handleSearchSubmit}
+      />
       {isLoading && <Loader />}
       {movies.length > 0 && <MoviesList movies={movies} />}
     </>

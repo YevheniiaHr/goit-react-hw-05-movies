@@ -1,29 +1,17 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { SearchButton, SearchForm, SearchInput } from './SearchBar.styled';
 import { BsSearch } from 'react-icons/bs';
 
-const SearchBar = ({ setSearchParams }) => {
-  const [query, setQuery] = useState('');
-
-  const handleSubmit = e => {
-    e.preventDefault();
-
-    setSearchParams({ query });
-
-    e.target.reset();
-  };
-
-  const handleChange = ({ target: { value } }) => {
-    setQuery(value);
-  };
+const SearchBar = ({ onSubmit, value, onChange }) => {
   return (
-    <SearchForm onSubmit={handleSubmit}>
+    <SearchForm onSubmit={onSubmit}>
       <SearchInput
         name="searchMovie"
         type="text"
         id="search"
         placeholder="Search movie"
-        onChange={handleChange}
+        value={value}
+        onChange={onChange}
       />
       <SearchButton>
         <BsSearch />
